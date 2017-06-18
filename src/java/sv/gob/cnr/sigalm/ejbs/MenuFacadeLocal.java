@@ -8,7 +8,6 @@ package sv.gob.cnr.sigalm.ejbs;
 import java.util.List;
 import javax.ejb.Local;
 import sv.gob.cnr.sigalm.entities.Menu;
-import sv.gob.cnr.sigalm.entities.Rol;
 
 /**
  *
@@ -30,6 +29,5 @@ public interface MenuFacadeLocal {
     List<Menu> findRange(int[] range);
 
     int count();
-    
-    List<Menu> listAllMenus(Rol rol);
+
 }

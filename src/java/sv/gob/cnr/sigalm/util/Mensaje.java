@@ -5,8 +5,10 @@
  */
 package sv.gob.cnr.sigalm.util;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 
 /**
  *
@@ -14,8 +16,11 @@ import javax.faces.context.FacesContext;
  * 
  * Clase utilizada para los mensajes del sistema
  */
-public class Mensaje {
-
+@Named
+public class Mensaje implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
     public void info(String msg) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", msg));
     }

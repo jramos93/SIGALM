@@ -5,14 +5,13 @@
  */
 package sv.gob.cnr.sigalm.controllers;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,8 +24,8 @@ import sv.gob.cnr.sigalm.util.Util;
  *
  * @author javii
  */
-@ManagedBean
 @SessionScoped
+@Named
 public class LoginController implements Serializable {
 
     private static final long serialVersionUID = 1L;
