@@ -70,13 +70,18 @@ public class MenuController implements Serializable {
                         DefaultSubMenu firstSubmenu = new DefaultSubMenu(m.getMnuNombre());
                         // Recorro los submenus
                         for (Menu sub : menuList) {
-                            Menu submenu = sub.getMnuPadreId();
-                            if (submenu != null) {
-                                // Si es igual quiere decir que el menu padre tiene hijos
-                                if (submenu.getMnuId() == m.getMnuId()) {
-                                    menuConHijos = true;
-                                    DefaultMenuItem item = new DefaultMenuItem(sub.getMnuNombre());
-                                    firstSubmenu.addElement(item);
+                            for (Permiso p : permisoList) {
+                                Menu submenu = sub.getMnuPadreId();
+                                if (submenu != null) {
+                                    if ((p.getPerRolId().getRolId() == usr.getUsrRolId().getRolId())
+                                            && (p.getPerMnuId().getMnuId() == sub.getMnuId())) {
+                                        // Si es igual quiere decir que el menu padre tiene hijos
+                                        if (submenu.getMnuId() == m.getMnuId()) {
+                                            menuConHijos = true;
+                                            DefaultMenuItem item = new DefaultMenuItem(sub.getMnuNombre());
+                                            firstSubmenu.addElement(item);
+                                        }
+                                    }
                                 }
                             }
                         }
