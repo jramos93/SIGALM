@@ -3,101 +3,107 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Roles</title>
     </h:head>
     <h:body>
-        <p:link value="Regresar" outcome="/principal"/>
-        <p:separator/>
-        <h:form id="tableRol">
-            <p:growl id="msg" severity="info, error" life="3000" showDetail="true"/>
-            <p:commandButton oncomplete="PF('nuevoRol').show()" icon="ui-icon-plus" value="Nuevo"/>
-            <p:separator/>
-            <p:dataTable id="table" value="#{rolController.rolesList}" var="r" paginator="true" rows="5" >
-                <f:facet name="header">
-                    Listado de roles
-                </f:facet>
+        <ui:composition template="./../templates/plantilla.xhtml">
+            <ui:define name="content">
+                <h1>Administración de roles</h1>
+                <h:form id="tableRol">
+                    <p:growl id="msg" severity="info, error" life="3000" showDetail="true"/>
+                    <p:commandButton oncomplete="PF('nuevoRol').show()" icon="ui-icon-plus" value="Nuevo"/>
+                    <p:separator/>
+                    <p:dataTable id="table" value="#{rolController.rolesList}" var="r" paginator="true" rows="5" >
+                        <f:facet name="header">
+                            Listado de roles
+                        </f:facet>
 
-                <p:column headerText="Nombre">
-                    <h:outputText value="#{r.rolNombre}"/>
-                </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{r.rolNombre}"/>
+                        </p:column>
 
-                <p:column headerText="Descripción">
-                    <h:outputText value="#{r.rolDescripcion}"/>
-                </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{r.rolDescripcion}"/>
+                        </p:column>
 
-                <p:column headerText="Fecha de creación">
-                    <h:outputText value="#{r.fecCrea}">
-                        <f:convertDateTime parent="dd/MM/yyyy"/>
-                    </h:outputText>
-                </p:column>
+                        <p:column headerText="Fecha de creación">
+                            <h:outputText value="#{r.fecCrea}">
+                                <f:convertDateTime parent="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
 
-                <p:column headerText="Acciones">
-                    <p:commandButton icon="ui-icon-pencil" title="Editar" update="formEditar"
-                                     oncomplete="PF('editarRol').show()">
-                        <f:setPropertyActionListener value="#{r}" target="#{rolController.rol}"/>
-                    </p:commandButton>
-                    <p:commandButton icon="ui-icon-trash" title="Eliminar" 
-                                     oncomplete="PF('eliminarRol').show()" update="formEliminar">
-                        <f:setPropertyActionListener value="#{r}" target="#{rolController.rol}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+                        <p:column headerText="Acciones">
+                            <p:commandButton icon="ui-icon-pencil" title="Editar" update="formEditar"
+                                             oncomplete="PF('editarRol').show()">
+                                <f:setPropertyActionListener value="#{r}" target="#{rolController.rol}"/>
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-trash" title="Eliminar" 
+                                             oncomplete="PF('eliminarRol').show()" update="formEliminar">
+                                <f:setPropertyActionListener value="#{r}" target="#{rolController.rol}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
 
-        <h:form id="formNuevo">
-            <p:dialog widgetVar="nuevoRol" modal="true" closeOnEscape="true" 
-                      resizable="false" header="Nuevo Rol">
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre: "/>
-                    <p:inputText value="#{rolController.rol.rolNombre}" required="true"
-                                 requiredMessage="Nombre de rol requerido"/>
+                <h:form id="formNuevo">
+                    <p:dialog widgetVar="nuevoRol" modal="true" closeOnEscape="true" 
+                              resizable="false" header="Nuevo Rol">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <p:inputText value="#{rolController.rol.rolNombre}" required="true"
+                                         requiredMessage="Nombre de rol requerido"/>
 
-                    <h:outputLabel value="Descripción: "/>
-                    <p:inputTextarea value="#{rolController.rol.rolDescripcion}"/>
+                            <h:outputLabel value="Descripción: "/>
+                            <p:inputTextarea value="#{rolController.rol.rolDescripcion}"/>
 
-                    <p:commandButton value="Guardar" oncomplete="PF('nuevoRol').hide()" icon="ui-icon-check"
-                                     actionListener="#{rolController.nuevoRol()}" 
-                                     update="tableRol, formNuevo"/>
-                    <p:commandButton value="Cancelar" oncomplete="PF('nuevoRol').hide()" 
-                                     icon="ui-icon-close" update="formNuevo" immediate="true"/>
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
+                            <p:commandButton value="Guardar" oncomplete="PF('nuevoRol').hide()" icon="ui-icon-check"
+                                             actionListener="#{rolController.nuevoRol()}" 
+                                             update="tableRol, formNuevo"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('nuevoRol').hide()" 
+                                             icon="ui-icon-close" update="formNuevo" immediate="true"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
 
-        <h:form id="formEditar">
-            <p:dialog id="dialogEditar" widgetVar="editarRol" modal="true" closeOnEscape="true" 
-                      resizable="false" header="Editar Rol">
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre: "/>
-                    <p:inputText value="#{rolController.rol.rolNombre}" required="true"
-                                 requiredMessage="Nombre de rol requerido"/>
+                <h:form id="formEditar">
+                    <p:dialog id="dialogEditar" widgetVar="editarRol" modal="true" closeOnEscape="true" 
+                              resizable="false" header="Editar Rol">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <p:inputText value="#{rolController.rol.rolNombre}" required="true"
+                                         requiredMessage="Nombre de rol requerido"/>
 
-                    <h:outputLabel value="Descripción: "/>
-                    <p:inputTextarea value="#{rolController.rol.rolDescripcion}"/>
+                            <h:outputLabel value="Descripción: "/>
+                            <p:inputTextarea value="#{rolController.rol.rolDescripcion}"/>
 
-                    <p:commandButton value="Guardar" oncomplete="PF('editarRol').hide()" icon="ui-icon-check" 
-                                     actionListener="#{rolController.editarRol()}" 
-                                     update="tableRol, formEditar"/>
-                    <p:commandButton value="Cancelar" oncomplete="PF('editarRol').hide()" 
-                                     icon="ui-icon-close" update="formEditar" immediate="true"/>
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
+                            <p:commandButton value="Guardar" oncomplete="PF('editarRol').hide()" icon="ui-icon-check" 
+                                             actionListener="#{rolController.editarRol()}" 
+                                             update="tableRol, formEditar"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('editarRol').hide()" 
+                                             icon="ui-icon-close" update="formEditar" immediate="true"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
 
-        <h:form id="formEliminar">           
-            <p:dialog modal="true" closeOnEscape="true" header="Confirmación" widgetVar="eliminarRol"
-                      resizable="false">
-                <h:outputLabel value="¿Está seguro de eliminar el registro?"/>
-                <br/>
-                <br/>
-                <p:commandButton value="Si" icon="ui-icon-check" update="tableRol, formEliminar" 
-                                 actionListener="#{rolController.eliminarRol()}" oncomplete="PF('eliminarRol').hide()"/>
-                <p:commandButton value="No" icon="ui-icon-close" update="formEliminar"
-                                 oncomplete="PF('eliminarRol').hide()" immediate="true"/>
-            </p:dialog>
-        </h:form>
+                <h:form id="formEliminar">           
+                    <p:dialog modal="true" closeOnEscape="true" header="Confirmación" widgetVar="eliminarRol"
+                              resizable="false">
+                        <h:outputLabel value="¿Está seguro de eliminar el registro?"/>
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Si" icon="ui-icon-check" update="tableRol, formEliminar" 
+                                         actionListener="#{rolController.eliminarRol()}" oncomplete="PF('eliminarRol').hide()"/>
+                        <p:commandButton value="No" icon="ui-icon-close" update="formEliminar"
+                                         oncomplete="PF('eliminarRol').hide()" immediate="true"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
     </h:body>
 </html>
 

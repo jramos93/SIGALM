@@ -10,13 +10,7 @@
         <ui:composition template="./templates/plantilla.xhtml">
 
             <ui:define name="content">
-                Bienvenido #{loginController.usuario.usrNombre} #{loginController.usuario.usrApellido} a SIGALM
-                <p:separator/>
-                
-                <br/>
-                <p:link value="Roles" outcome="administracion/roles"/>
-                <br/>
-                <p:link value="Usuarios" outcome="administracion/usuarios"/>
+                <h1>Bienvenido #{loginController.usuario.usrNombre} #{loginController.usuario.usrApellido}</h1>
             </ui:define>
 
         </ui:composition>

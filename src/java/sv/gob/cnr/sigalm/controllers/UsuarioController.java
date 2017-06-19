@@ -11,9 +11,13 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.New;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import sv.gob.cnr.sigalm.ejbs.RolFacadeLocal;
 import sv.gob.cnr.sigalm.ejbs.UsuarioFacadeLocal;
 import sv.gob.cnr.sigalm.entities.Rol;
 import sv.gob.cnr.sigalm.entities.Usuario;
@@ -31,15 +35,22 @@ public class UsuarioController implements Serializable{
     
     @EJB
     private UsuarioFacadeLocal usuarioFacadeLocal;
+    @EJB
+    private RolFacadeLocal rolFacadeLocal;
+    
     private Usuario usuario;
+    private Rol rol;
+    
     private List<Usuario> usuariosList;
     private Mensaje m;
-    private List<SelectItem> rolesList;
+    private List<Rol> roles;
     
     @PostConstruct
     public void init(){
         usuario = new Usuario();
+        rol = new Rol();
         usuariosList = usuarioFacadeLocal.findAll();
+        roles = rolFacadeLocal.findAll();
     }
 
     public Usuario getUsuario() {
@@ -58,23 +69,27 @@ public class UsuarioController implements Serializable{
         this.usuariosList = usuariosList;
     }
 
-    public List<SelectItem> getRolesList() {
-        this.rolesList = new ArrayList<>();
-        List<Rol> roles = usuarioFacadeLocal.listAllRoles();
-        
-        rolesList.clear();
-        
-        for(Rol r: roles){
-            SelectItem item = new SelectItem(r.getRolId(), r.getRolNombre());
-            this.rolesList.add(item);
-        }
-        return rolesList;
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
     
     public void nuevoUsuario(){
         m = new Mensaje();
         Date d = new Date();
         try {
+            this.usuario.setUsrRolId(this.rol);
             this.usuario.setFecCrea(d);
             this.usuario.setUsuCrea("Jramos");
             this.usuario.setRegActivo((short)1);

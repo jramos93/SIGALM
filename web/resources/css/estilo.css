@@ -1,0 +1,86 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 06-18-2017, 06:25:03 PM
+    Author     : Jramos93
+*/
+
+body{
+    color: #fff;
+    background-color: #444;
+}
+
+h1{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+#principal{
+    margin: 200px auto;
+    width: 800px;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
+#formLogin{
+    width: 60%; 
+    margin: 0 auto;
+}
+
+#formLogin>form>table{
+    margin: 0 auto;
+}
+
+#top{
+    background-color: #fff;
+    text-align: center;
+}
+
+#top>form>img{
+    margin: 20px;
+}
+
+.ui-menubar {
+    background: #023f62;
+}
+
+.ui-menuitem-text{
+    color: #fff;
+}
+
+// Color de la lista de menu
+.ui-menu .ui-menu-child{
+    background: #444;
+}
+
+// Hover de menus
+.ui-state-hover, .ui-widget-content .ui-state-hover{
+    background: #0B6FA3 ;
+}
+
+.ui-widget-content a{
+    color: #fff;
+}
+
+.ui-widget-content li{
+    color: #fff;
+}
+
+#content{
+    min-height: 300px;
+}
+
+#bottom{
+    height: 50px;
+}
+
+

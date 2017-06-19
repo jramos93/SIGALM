@@ -58,6 +58,9 @@ public class MenuController implements Serializable {
         // Obtengo la sesion almacenada en el LoginController
         HttpSession httpSession = Util.getSession();
         Usuario usr = (Usuario) httpSession.getAttribute("usuario");
+        DefaultMenuItem it = new DefaultMenuItem("Inicio");
+        it.setUrl("http://localhost:8080/SIGALM/principal.xhtml");
+        model.addElement(it);
         // Recorro los menus
         for (Menu m : menuList) {
             // Recorro los permisos
@@ -79,6 +82,7 @@ public class MenuController implements Serializable {
                                         if (submenu.getMnuId() == m.getMnuId()) {
                                             menuConHijos = true;
                                             DefaultMenuItem item = new DefaultMenuItem(sub.getMnuNombre());
+                                            item.setUrl(sub.getMnuUrl());
                                             firstSubmenu.addElement(item);
                                         }
                                     }
@@ -90,6 +94,7 @@ public class MenuController implements Serializable {
                             model.addElement(firstSubmenu);
                         } else {
                             DefaultMenuItem item = new DefaultMenuItem(m.getMnuNombre());
+                            item.setUrl(m.getMnuUrl());
                             model.addElement(item);
                         }
                     }

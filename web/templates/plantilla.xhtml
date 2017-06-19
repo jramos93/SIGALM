@@ -8,8 +8,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet library="css" name="estilo.css"/>
         <title>Facelets Template</title>
     </h:head>
 
@@ -18,18 +17,26 @@
         <div id="top">
             <ui:insert name="top">
                 <h:form>
-                    <p:menubar model="#{menuController.model}"/>
-                    <p:commandLink value="Salir" action="#{loginController.cerrarSesion()}"/>
+                    <p:graphicImage library="images" name="banner_header_principal.jpg"/>
+                    <p:menubar model="#{menuController.model}">
+                        <f:facet name="options">
+                            <h:outputText value="Usuario: #{loginController.usuario.usrUsuario} &nbsp;"/>
+                            <p:commandLink value="Cerrar Sesión" action="#{loginController.cerrarSesion()}"/>
+                        </f:facet>
+                    </p:menubar>
                 </h:form>
             </ui:insert>
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+            <ui:insert name="content"></ui:insert>
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <ui:insert name="bottom">
+                <p:separator/>
+                Contacto: desarrollo@cnr.gob.sv
+            </ui:insert>
         </div>
 
     </h:body>

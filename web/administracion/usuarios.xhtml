@@ -3,255 +3,261 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Usuarios</title>
     </h:head>
     <h:body>
-        <p:link value="Regresar" outcome="/principal"/>
-        <p:separator/>
-        <h:form id="tableUsuario">
-            <p:growl id="msg" severity="info, error" life="5000" showDetail="true"/>
-            <p:commandButton oncomplete="PF('nuevoUsuario').show()" icon="ui-icon-plus" value="Nuevo"/>
-            <p:separator/>
-            <p:dataTable id="table" value="#{usuarioController.usuariosList}" var="u" paginator="true" rows="5" >
-                <f:facet name="header">
-                    Listado de usuarios
-                </f:facet>
-                
-                <p:column headerText="Carné">
-                    <h:outputText value="#{u.usrCarnet}"/>
-                </p:column>
-                
-                <p:column headerText="Usuario">
-                    <h:outputText value="#{u.usrUsuario}" />
-                </p:column>
-                
-                <p:column headerText="Nombre">
-                    <h:outputText value="#{u.usrNombre} #{u.usrApellido}"/>
-                </p:column>
+        <ui:composition template="./../templates/plantilla.xhtml">
+            <ui:define name="content">
+                <h:form id="tableUsuario">
+                    <h1>Administración de usuarios</h1>
+                    <p:growl id="msg" severity="info, error" life="5000" showDetail="true"/>
+                    <p:commandButton oncomplete="PF('nuevoUsuario').show()" icon="ui-icon-plus" value="Nuevo"/>
+                    <p:separator/>
+                    <p:dataTable id="table" value="#{usuarioController.usuariosList}" var="u" paginator="true" rows="5" >
+                        <f:facet name="header">
+                            Listado de usuarios
+                        </f:facet>
 
-                <p:column headerText="Rol">
-                    <h:outputText value="#{u.usrRolId.rolNombre}"/>
-                </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{u.usrNombre} #{u.usrApellido}"/>
+                        </p:column>
 
-                <p:column headerText="Acciones">
-                    <p:commandButton icon="ui-icon-pencil" title="Editar" update="formEditar"
-                                     oncomplete="PF('editarUsuario').show()">
-                        <f:setPropertyActionListener value="#{u}" target="#{usuarioController.usuario}"/>
-                    </p:commandButton>
-                    
-                    <p:commandButton icon="ui-icon-trash" title="Eliminar" 
-                                     oncomplete="PF('eliminarUsuario').show()" update="formEliminar">
-                        <f:setPropertyActionListener value="#{u}" target="#{usuarioController.usuario}"/>
-                    </p:commandButton>
-                    
-                    <p:commandButton icon="ui-icon-extlink" title="Ver más" 
-                                     oncomplete="PF('detalleUsuario').show()" update="formDetalle">
-                        <f:setPropertyActionListener value="#{u}" target="#{usuarioController.usuario}"/>
-                    </p:commandButton>
-                </p:column>
-            </p:dataTable>
-        </h:form>
+                        <p:column headerText="Rol">
+                            <h:outputText value="#{u.usrRolId.rolNombre}"/>
+                        </p:column>
 
-        <h:form id="formNuevo">
-            <p:dialog widgetVar="nuevoUsuario" modal="true" closeOnEscape="true" 
-                      resizable="false" header="Nuevo Usuario">
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre: "/>
-                    <p:inputText value="#{usuarioController.usuario.usrNombre}" required="true"
-                                 requiredMessage="Nombre requerido"/>
-                    
-                    <h:outputLabel value="Apellido: "/>
-                    <p:inputText value="#{usuarioController.usuario.usrApellido}" required="true"
-                                 requiredMessage="Apellido requerido"/>
+                        <p:column headerText="Carné">
+                            <h:outputText value="#{u.usrCarnet}"/>
+                        </p:column>
 
-                    <h:outputLabel value="Carné: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrCarnet}" required="true"
-                                 requiredMessage="Carné requerido" mask="a*9999"/>
+                        <p:column headerText="Usuario">
+                            <h:outputText value="#{u.usrUsuario}" />
+                        </p:column>
 
-                    <h:outputLabel value="Usuario: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrUsuario}" required="true"
-                                 requiredMessage="Usuario requerido" mask="a*9999"/>
+                        <p:column headerText="Acciones">
+                            <p:commandButton icon="ui-icon-pencil" title="Editar" update="formEditar"
+                                             oncomplete="PF('editarUsuario').show()">
+                                <f:setPropertyActionListener value="#{u}" target="#{usuarioController.usuario}"/>
+                            </p:commandButton>
 
-                    <h:outputLabel value="Contraseña: "/>
-                    <p:password id="pass1" value="#{usuarioController.usuario.usrContrasenia}" required="true"
-                                requiredMessage="Contraseña requerida" match="pass2"
-                                validatorMessage="Las claves deben ser iguales" feedback="true" 
-                                promptLabel="Ingrese una contraseña"
-                                weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
-                    
-                    <h:outputLabel value="Repetir contraseña: "/>
-                    <p:password id="pass2" required="true" requiredMessage="Contraseña requerida"
-                                validatorMessage="Las claves deben ser iguales" feedback="true" 
-                                promptLabel="Ingrese la contraseña anterior"
-                                weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
-                    
-                    <h:outputLabel value="Rol: "/>
-                    <p:selectOneMenu value="#{usuarioController.usuario.usrRolId.rolId}">
-                        <f:selectItem itemLabel="--Seleccione un rol--" itemValue=""/>
-                        <f:selectItems value="#{usuarioController.rolesList}"/>
-                    </p:selectOneMenu>
+                            <p:commandButton icon="ui-icon-trash" title="Eliminar" 
+                                             oncomplete="PF('eliminarUsuario').show()" update="formEliminar">
+                                <f:setPropertyActionListener value="#{u}" target="#{usuarioController.usuario}"/>
+                            </p:commandButton>
 
-                    <h:outputLabel value="Dui: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrDui}" mask="99999999-9"/>
+                            <p:commandButton icon="ui-icon-extlink" title="Ver más" 
+                                             oncomplete="PF('detalleUsuario').show()" update="formDetalle">
+                                <f:setPropertyActionListener value="#{u}" target="#{usuarioController.usuario}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
 
-                    <h:outputLabel value="Nit: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrNit}" mask="9999-999999-999-9"/>
-                    
-                    <h:outputLabel value="Celular: "/>
-                    <p:inputMask mask="9999-9999" value="#{usuarioController.usuario.usrCelular}" />
-                    
-                    <h:outputLabel value="Correo:  "/>
-                    <p:inputText value="#{usuarioController.usuario.usrCorreoElectronico}" required="true" 
-                                 requiredMessage="Ingrese un correo valido" validatorMessage="Correo invalido">
-                        <f:validateRegex 
-                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
-                    </p:inputText>
-                    
-                    <h:outputLabel value="Descripción: "/>
-                    <p:inputTextarea value="#{usuarioController.usuario.usrDescripcion}"/>
-                    
+                <h:form id="formNuevo">
+                    <p:dialog widgetVar="nuevoUsuario" modal="true" closeOnEscape="true" 
+                              resizable="false" header="Nuevo Usuario">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <p:inputText value="#{usuarioController.usuario.usrNombre}" required="true"
+                                         requiredMessage="Nombre requerido"/>
 
-                    <p:commandButton value="Guardar" oncomplete="PF('nuevoUsuario').hide()" icon="ui-icon-check" 
-                                     update="tableUsuario, formNuevo" 
-                                     actionListener="#{usuarioController.nuevoUsuario()}"/>
-                    <p:commandButton value="Cancelar" oncomplete="PF('nuevoUsuario').hide()" 
-                                     icon="ui-icon-close" update="formNuevo" immediate="true"/>
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
+                            <h:outputLabel value="Apellido: "/>
+                            <p:inputText value="#{usuarioController.usuario.usrApellido}" required="true"
+                                         requiredMessage="Apellido requerido"/>
 
-        <h:form id="formEditar">
-            <p:dialog widgetVar="editarUsuario" modal="true" closeOnEscape="true" 
-                      resizable="false" header="Editar Usuario">
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre: "/>
-                    <p:inputText value="#{usuarioController.usuario.usrNombre}" required="true"
-                                 requiredMessage="Nombre requerido"/>
-                    
-                    <h:outputLabel value="Apellido: "/>
-                    <p:inputText value="#{usuarioController.usuario.usrApellido}" required="true"
-                                 requiredMessage="Apellido requerido"/>
+                            <h:outputLabel value="Carné: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrCarnet}" required="true"
+                                         requiredMessage="Carné requerido" mask="a*9999"/>
 
-                    <h:outputLabel value="Carné: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrCarnet}" required="true"
-                                 requiredMessage="Carné requerido" mask="a*9999"/>
+                            <h:outputLabel value="Usuario: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrUsuario}" required="true"
+                                         requiredMessage="Usuario requerido" mask="a*9999"/>
 
-                    <h:outputLabel value="Usuario: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrUsuario}" required="true"
-                                 requiredMessage="Usuario requerido" mask="a*9999"/>
+                            <h:outputLabel value="Contraseña: "/>
+                            <p:password id="pass1" value="#{usuarioController.usuario.usrContrasenia}" required="true"
+                                        requiredMessage="Contraseña requerida" match="pass2"
+                                        validatorMessage="Las claves deben ser iguales" feedback="true" 
+                                        promptLabel="Ingrese una contraseña"
+                                        weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
 
-                    <h:outputLabel value="Contraseña: "/>
-                    <p:password id="pass1" value="#{usuarioController.usuario.usrContrasenia}" required="true"
-                                requiredMessage="Contraseña requerida" match="pass2"
-                                validatorMessage="Las claves deben ser iguales" feedback="true" 
-                                promptLabel="Ingrese una contraseña"
-                                weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
-                    
-                    <h:outputLabel value="Repetir contraseña: "/>
-                    <p:password id="pass2" required="true" requiredMessage="Contraseña requerida"
-                                validatorMessage="Las claves deben ser iguales" feedback="true" 
-                                promptLabel="Ingrese la contraseña anterior"
-                                weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
-                    
-                    <h:outputLabel value="Rol: "/>
-                    <p:selectOneMenu value="#{usuarioController.usuario.usrRolId.rolId}">
-                        <f:selectItem itemLabel="--Seleccione un rol--" itemValue=""/>
-                        <f:selectItems value="#{usuarioController.rolesList}"/>
-                    </p:selectOneMenu>
+                            <h:outputLabel value="Repetir contraseña: "/>
+                            <p:password id="pass2" required="true" requiredMessage="Contraseña requerida"
+                                        validatorMessage="Las claves deben ser iguales" feedback="true" 
+                                        promptLabel="Ingrese la contraseña anterior"
+                                        weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
 
-                    <h:outputLabel value="Dui: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrDui}" mask="99999999-9"/>
+                            <h:outputLabel value="Rol: "/>
+                            <p:selectOneMenu value="#{usuarioController.rol.rolId}">
+                                <f:selectItem itemLabel="--Seleccione un rol--" itemValue=""/>
+                                <f:selectItems value="#{usuarioController.roles}" var="r"
+                                               itemLabel="#{r.rolNombre}" itemValue="#{r.rolId}"/>
+                            </p:selectOneMenu>
 
-                    <h:outputLabel value="Nit: "/>
-                    <p:inputMask value="#{usuarioController.usuario.usrNit}" mask="9999-999999-999-9"/>
-                    
-                    <h:outputLabel value="Celular: "/>
-                    <p:inputMask mask="9999-9999" value="#{usuarioController.usuario.usrCelular}" />
-                    
-                    <h:outputLabel value="Correo:  "/>
-                    <p:inputText value="#{usuarioController.usuario.usrCorreoElectronico}" required="true" 
-                                 requiredMessage="Ingrese un correo valido" validatorMessage="Correo invalido">
-                        <f:validateRegex 
-                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
-                    </p:inputText>
-                    
-                    <h:outputLabel value="Descripción: "/>
-                    <p:inputTextarea value="#{usuarioController.usuario.usrDescripcion}"/>
+                            <h:outputLabel value="Dui: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrDui}" mask="99999999-9"/>
 
-                    <p:commandButton value="Guardar" oncomplete="PF('editarUsuario').hide()" icon="ui-icon-check" 
-                                     update="tableUsuario, formEditar" 
-                                     actionListener="#{usuarioController.editarUsuario()}"/>
-                    <p:commandButton value="Cancelar" oncomplete="PF('editarUsuario').hide()" 
-                                     icon="ui-icon-close" update="formEditar" immediate="true"/>
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
+                            <h:outputLabel value="Nit: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrNit}" mask="9999-999999-999-9"/>
 
-        <h:form id="formEliminar">           
-            <p:dialog modal="true" closeOnEscape="true" header="Confirmación" widgetVar="eliminarUsuario"
-                      resizable="false">
-                <h:outputLabel value="¿Está seguro de eliminar el registro?"/>
-                <br/>
-                <br/>
-                <p:commandButton value="Si" icon="ui-icon-check" update="tableUsuario, formEliminar" 
-                                 actionListener="#{usuarioController.eliminarUsuario()}" 
-                                 oncomplete="PF('eliminarUsuario').hide()"/>
-                <p:commandButton value="No" icon="ui-icon-close" update="formEliminar"
-                                 oncomplete="PF('eliminarUsuario').hide()" immediate="true"/>
-            </p:dialog>
-        </h:form>
-        
-        <h:form id="formDetalle">
-            <p:dialog widgetVar="detalleUsuario" modal="true" closeOnEscape="true" 
-                      resizable="false" header="Detalle Usuario">
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrNombre}" />
-                    
-                    <h:outputLabel value="Apellido: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrApellido}" />
+                            <h:outputLabel value="Celular: "/>
+                            <p:inputMask mask="9999-9999" value="#{usuarioController.usuario.usrCelular}" />
 
-                    <h:outputLabel value="Carné: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrCarnet}" />
+                            <h:outputLabel value="Correo:  "/>
+                            <p:inputText value="#{usuarioController.usuario.usrCorreoElectronico}" required="true" 
+                                         requiredMessage="Ingrese un correo valido" validatorMessage="Correo invalido">
+                                <f:validateRegex 
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                            </p:inputText>
 
-                    <h:outputLabel value="Usuario: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrUsuario}" />
-                    
-                    <h:outputLabel value="Rol: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrRolId.rolNombre}"/>
+                            <h:outputLabel value="Descripción: "/>
+                            <p:inputTextarea value="#{usuarioController.usuario.usrDescripcion}"/>
 
-                    <h:outputLabel value="Dui: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrDui}" />
 
-                    <h:outputLabel value="Nit: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrNit}" />
-                    
-                    <h:outputLabel value="Celular: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrCelular}" />
-                    
-                    <h:outputLabel value="Correo:  "/>
-                    <h:outputText value="#{usuarioController.usuario.usrCorreoElectronico}" />
-                    
-                    <h:outputLabel value="Descripción: "/>
-                    <h:outputText value="#{usuarioController.usuario.usrDescripcion}"/>
-                    
-                    <h:outputLabel value="Creación: "/>
-                    <h:outputText value="#{usuarioController.usuario.fecCrea}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                    
-                    <h:outputLabel value="Modificación: "/>
-                    <h:outputText value="#{usuarioController.usuario.fecModi}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>
-                    
-                    <p:commandButton value="Cerrar" oncomplete="PF('detalleUsuario').hide()" 
-                                     icon="ui-icon-close" update="formDetalle" immediate="true"/>
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
+                            <p:commandButton value="Guardar" oncomplete="PF('nuevoUsuario').hide()" icon="ui-icon-check" 
+                                             update="tableUsuario, formNuevo" 
+                                             actionListener="#{usuarioController.nuevoUsuario()}"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('nuevoUsuario').hide()" 
+                                             icon="ui-icon-close" update="formNuevo" immediate="true"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEditar">
+                    <p:dialog widgetVar="editarUsuario" modal="true" closeOnEscape="true" 
+                              resizable="false" header="Editar Usuario">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <p:inputText value="#{usuarioController.usuario.usrNombre}" required="true"
+                                         requiredMessage="Nombre requerido"/>
+
+                            <h:outputLabel value="Apellido: "/>
+                            <p:inputText value="#{usuarioController.usuario.usrApellido}" required="true"
+                                         requiredMessage="Apellido requerido"/>
+
+                            <h:outputLabel value="Carné: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrCarnet}" required="true"
+                                         requiredMessage="Carné requerido" mask="a*9999"/>
+
+                            <h:outputLabel value="Usuario: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrUsuario}" required="true"
+                                         requiredMessage="Usuario requerido" mask="a*9999"/>
+
+                            <h:outputLabel value="Contraseña: "/>
+                            <p:password id="pass1" value="#{usuarioController.usuario.usrContrasenia}" required="true"
+                                        requiredMessage="Contraseña requerida" match="pass2"
+                                        validatorMessage="Las claves deben ser iguales" feedback="true" 
+                                        promptLabel="Ingrese una contraseña"
+                                        weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
+
+                            <h:outputLabel value="Repetir contraseña: "/>
+                            <p:password id="pass2" required="true" requiredMessage="Contraseña requerida"
+                                        validatorMessage="Las claves deben ser iguales" feedback="true" 
+                                        promptLabel="Ingrese la contraseña anterior"
+                                        weakLabel="Débil" goodLabel="Buena" strongLabel="Fuerte"/>
+
+                            <h:outputLabel value="Rol: "/>
+                            <p:selectOneMenu value="#{usuarioController.rol.rolId}">
+                                <f:selectItem itemLabel="--Seleccione un rol--" itemValue=""/>
+                                <f:selectItems value="#{usuarioController.roles}" var="r"
+                                               itemLabel="#{r.rolNombre}" itemValue="#{r.rolId}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputLabel value="Dui: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrDui}" mask="99999999-9"/>
+
+                            <h:outputLabel value="Nit: "/>
+                            <p:inputMask value="#{usuarioController.usuario.usrNit}" mask="9999-999999-999-9"/>
+
+                            <h:outputLabel value="Celular: "/>
+                            <p:inputMask mask="9999-9999" value="#{usuarioController.usuario.usrCelular}" />
+
+                            <h:outputLabel value="Correo:  "/>
+                            <p:inputText value="#{usuarioController.usuario.usrCorreoElectronico}" required="true" 
+                                         requiredMessage="Ingrese un correo valido" validatorMessage="Correo invalido">
+                                <f:validateRegex 
+                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                            </p:inputText>
+
+                            <h:outputLabel value="Descripción: "/>
+                            <p:inputTextarea value="#{usuarioController.usuario.usrDescripcion}"/>
+
+                            <p:commandButton value="Guardar" oncomplete="PF('editarUsuario').hide()" icon="ui-icon-check" 
+                                             update="tableUsuario, formEditar" 
+                                             actionListener="#{usuarioController.editarUsuario()}"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('editarUsuario').hide()" 
+                                             icon="ui-icon-close" update="formEditar" immediate="true"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminar">           
+                    <p:dialog modal="true" closeOnEscape="true" header="Confirmación" widgetVar="eliminarUsuario"
+                              resizable="false">
+                        <h:outputLabel value="¿Está seguro de eliminar el registro?"/>
+                        <br/>
+                        <br/>
+                        <p:commandButton value="Si" icon="ui-icon-check" update="tableUsuario, formEliminar" 
+                                         actionListener="#{usuarioController.eliminarUsuario()}" 
+                                         oncomplete="PF('eliminarUsuario').hide()"/>
+                        <p:commandButton value="No" icon="ui-icon-close" update="formEliminar"
+                                         oncomplete="PF('eliminarUsuario').hide()" immediate="true"/>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formDetalle">
+                    <p:dialog widgetVar="detalleUsuario" modal="true" closeOnEscape="true" 
+                              resizable="false" header="Detalle Usuario">
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Nombre: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrNombre}" />
+
+                            <h:outputLabel value="Apellido: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrApellido}" />
+
+                            <h:outputLabel value="Carné: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrCarnet}" />
+
+                            <h:outputLabel value="Usuario: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrUsuario}" />
+
+                            <h:outputLabel value="Rol: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrRolId.rolNombre}"/>
+
+                            <h:outputLabel value="Dui: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrDui}" />
+
+                            <h:outputLabel value="Nit: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrNit}" />
+
+                            <h:outputLabel value="Celular: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrCelular}" />
+
+                            <h:outputLabel value="Correo:  "/>
+                            <h:outputText value="#{usuarioController.usuario.usrCorreoElectronico}" />
+
+                            <h:outputLabel value="Descripción: "/>
+                            <h:outputText value="#{usuarioController.usuario.usrDescripcion}"/>
+
+                            <h:outputLabel value="Creación: "/>
+                            <h:outputText value="#{usuarioController.usuario.fecCrea}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+
+                            <h:outputLabel value="Modificación: "/>
+                            <h:outputText value="#{usuarioController.usuario.fecModi}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+
+                            <p:commandButton value="Cerrar" oncomplete="PF('detalleUsuario').hide()" 
+                                             icon="ui-icon-close" update="formDetalle" immediate="true"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 

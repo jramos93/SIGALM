@@ -5,25 +5,31 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>SIGALM</title>
+        <h:outputStylesheet library="css" name="estilo.css"/>
     </h:head>
     <h:body>
-        <h:form>
-            <p:messages autoUpdate="true" showDetail="true"/>
-            <h:panelGrid columns="2">
-                <h:outputLabel for="usuario" value="Usuario"/>
-                <p:inputText id="usuario" required="true" requiredMessage="Se necesita un usuario" value="#{loginController.usuario.usrUsuario}"/>
+        <div id="principal">
+            <h1>INICIO DE SESIÓN</h1>
+            <h3>SIGALM</h3>
+            <div id="formLogin">
+                <h:form>
+                    <p:messages autoUpdate="true" showDetail="true"/>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel for="usuario" value="Usuario: "/>
+                        <p:inputText id="usuario" required="true" requiredMessage="Se necesita un usuario" value="#{loginController.usuario.usrUsuario}"/>
 
-                <h:outputLabel for="clave" value="Contraseña"/>
-                <p:password id="clave" required="true" requiredMessage="Se necesita una contraseña" value="#{loginController.usuario.usrContrasenia}"/>
-
-                <h:outputLabel/>
-                <p:commandButton icon="ui-icon-check" value="Entrar" action="#{loginController.inciarSesion()}"/>
-            </h:panelGrid>
-        </h:form>
-        <p:separator/>
-        
-
+                        <h:outputLabel for="clave" value="Contraseña: "/>
+                        <p:password id="clave" required="true" requiredMessage="Se necesita una contraseña" value="#{loginController.usuario.usrContrasenia}"/>
+                        <p:column/>
+                        <p:commandButton icon="ui-icon-check" value="Entrar" action="#{loginController.inciarSesion()}"/>
+                        <p:column/>
+                        <p:commandLink value="Olvido de contraseña" />
+                    </h:panelGrid>
+                </h:form>
+            </div>
+            <p:separator/>
+        </div>
     </h:body>
 </html>
 
