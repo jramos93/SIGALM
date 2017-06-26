@@ -13,9 +13,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import sv.gob.cnr.sigalm.ejbs.RolFacadeLocal;
 import sv.gob.cnr.sigalm.entities.Rol;
+import sv.gob.cnr.sigalm.entities.Usuario;
 import sv.gob.cnr.sigalm.util.Mensaje;
+import sv.gob.cnr.sigalm.util.Util;
 
 
 /**
@@ -34,11 +37,13 @@ public class RolController implements Serializable{
     private Rol rol;
     private List<Rol> rolesList;
     private Mensaje m;
+    private Boolean perAdmin=false;
     
     @PostConstruct
     public void init(){
         rol = new Rol();
         rolesList = rolFacadeLocal.findAll();
+        setPermisos();
     }
 
     public Rol getRol() {
@@ -94,6 +99,23 @@ public class RolController implements Serializable{
             init();
         } catch (Exception e) {
             m.error("Error en la transacción");
+        }
+    }
+
+    public Boolean getPerAdmin() {
+        return perAdmin;
+    }
+
+    public void setPerAdmin(Boolean perAdmin) {
+        this.perAdmin = perAdmin;
+    }
+    
+    
+    public void setPermisos(){
+        HttpSession httpSession = Util.getSession();
+        Usuario usr = (Usuario) httpSession.getAttribute("usuario");
+        if(usr.getUsrRolId().getRolNombre().equals("Administrador")){
+            setPerAdmin(true);
         }
     }
 }

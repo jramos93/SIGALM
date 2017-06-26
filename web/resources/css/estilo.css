@@ -9,12 +9,16 @@ and open the template in the editor.
 */
 
 body{
-    color: #fff;
     background-color: #444;
+    width: 1280px;
+    margin: 0 auto;
+    margin-top: 15px;
 }
 
 h1{
     text-align: center;
+    margin-top: 0;
+    padding-top: 50px;
 }
 
 h3{
@@ -34,6 +38,7 @@ a{
 #formLogin{
     width: 60%; 
     margin: 0 auto;
+    color: #fff;
 }
 
 #formLogin>form>table{
@@ -47,14 +52,15 @@ a{
 
 #top>form>img{
     margin: 20px;
+    width: 90%;
 }
 
 .ui-menubar {
     background: #023f62;
 }
-
+/*
 .ui-menuitem-text{
-    color: #fff;
+    color: #fff ;
 }
 
 // Color de la lista de menu
@@ -68,15 +74,16 @@ a{
 }
 
 .ui-widget-content a{
-    color: #fff;
+    color: #fff ;
 }
 
 .ui-widget-content li{
-    color: #fff;
+    color: #fff ;
 }
-
+*/
 #content{
-    min-height: 300px;
+    background-color: #fff;
+    min-height: 400px;
 }
 
 #bottom{
