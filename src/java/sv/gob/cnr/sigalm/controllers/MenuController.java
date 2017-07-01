@@ -101,6 +101,13 @@ public class MenuController implements Serializable {
                 }
             }
         }
+        DefaultSubMenu firstSubmenu = new DefaultSubMenu("Sesion");
+        DefaultMenuItem item = new DefaultMenuItem("Cambiar Contraseña");
+        firstSubmenu.addElement(item);
+        item = new DefaultMenuItem("Cerrar Sesión");
+        item.setCommand("#{loginController.cerrarSesion()}");
+        firstSubmenu.addElement(item);
+        model.addElement(firstSubmenu);
     }
 
     public MenuModel getModel() {

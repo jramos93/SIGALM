@@ -47,12 +47,19 @@ a{
 
 #top{
     background-color: #fff;
+}
+
+#imag{
     text-align: center;
 }
 
-#top>form>img{
-    margin: 20px;
-    width: 90%;
+#usuario{
+    text-align: left;
+}
+
+#top>form>div>img{
+    margin: 15px;
+    width: 60%;
 }
 
 .ui-menubar {
@@ -90,4 +97,10 @@ a{
     height: 50px;
 }
 
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
+    background: #023f62;
+}
 
+.ui-growl-item{
+    color: #fff;
+}

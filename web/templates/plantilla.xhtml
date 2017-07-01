@@ -14,17 +14,17 @@
     </h:head>
 
     <h:body>
-        
+
         <div id="top">
             <ui:insert name="top">
+                <div id="usuario">
+                    <h:outputText style="margin: 5px;" value="Usuario: #{loginController.usuario.usrUsuario} &nbsp;"/>
+                </div>
                 <h:form>
-                    <p:graphicImage library="images" name="banner_header_principal.jpg"/>
-                    <p:menubar model="#{menuController.model}">
-                        <f:facet name="options">
-                            <h:outputText value="Usuario: #{loginController.usuario.usrUsuario} &nbsp;"/>
-                            <p:commandLink value="Cerrar Sesión" action="#{loginController.cerrarSesion()}"/>
-                        </f:facet>
-                    </p:menubar>
+                    <div id="imag">
+                        <p:graphicImage library="images" name="banner_header_principal.jpg"/>
+                    </div>
+                    <p:menubar model="#{menuController.model}"/>
                 </h:form>
             </ui:insert>
         </div>
